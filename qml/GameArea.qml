@@ -26,7 +26,51 @@ Item {
 
     // gameover signal
     signal gameOver
+    Rectangle {
+        id: rectangle
+        color: "red"
+        opacity: 0
+    }
+    Rectangle {
+        id: rectangle2
+        color: "red"
+        opacity: 0
+    }
+    Rectangle {
+        id: rectangle3
+        color: "red"
+        opacity: 0
+    }
+    Rectangle {
+        id: rectangle4
+        color: "red"
+        opacity: 0
+    }
+    Rectangle {
+        id: rectangle5
+        color: "red"
+        opacity: 0
+    }
+    Rectangle {
+        id: rectangle6
+        color: "red"
+        opacity: 0
+    }
 
+    Timer {
+        id: timer
+        interval: 1500
+        running: true
+        repeat: true
+        onTriggered: {
+            rectangle.opacity = 0
+            rectangle2.opacity = 0
+            rectangle3.opacity = 0
+            rectangle4.opacity = 0
+            rectangle5.opacity = 0
+            rectangle6.opacity = 0
+        }
+    }
     // calculate field index
     function index(row, column) {
         return row * columns + column
@@ -129,11 +173,13 @@ Item {
                                                      link[0].column)]
                     gameArea.field[index(link[0].row, link[0].column)] = null
                     block.remove()
+                    // gamesound.playFruitySound()
                     link[0] = null
 
                     block = gameArea.field[index(link[1].row, link[1].column)]
                     gameArea.field[index(link[1].row, link[1].column)] = null
                     block.remove()
+                    //gamesound.playFruitySound()
                     link[1] = null
                 } else
                     linkIndex = 1
@@ -148,11 +194,13 @@ Item {
                     block = gameArea.field[index(link[0].row, link[0].column)]
                     gameArea.field[index(link[0].row, link[0].column)] = null
                     block.remove()
+                    //gamesound.playFruitySound()
                     link[0] = null
 
                     block = gameArea.field[index(link[1].row, link[1].column)]
                     gameArea.field[index(link[1].row, link[1].column)] = null
                     block.remove()
+                    //gamesound.playFruitySound()
                     link[1] = null
                 } else
                     linkIndex = 0
@@ -180,7 +228,212 @@ Item {
         if ((gameArea.maxTypes < 5) && (gameArea.clicks % 10 == 0))
             gameArea.maxTypes++
     }
+    function drawline1(row1, col1, row2, col2) {
+        if ((row1 === row2) || (col1 === col2)) {
+            if ((row1 === row2) && (col1 !== col2)) {
+                if (col1 < col2) {
+                    rectangle.width = (col2 - col1) * blockSize
+                    rectangle.height = 1
+                    rectangle.opacity = 1
+                    rectangle.x = col1 * blockSize + blockSize / 2
+                    rectangle.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle.width = (col1 - col2) * blockSize
+                    rectangle.height = 1
+                    rectangle.opacity = 1
+                    rectangle.x = col2 * blockSize + blockSize / 2
+                    rectangle.y = row2 * blockSize + blockSize / 2
+                }
+            }
+            if ((row1 !== row2) && (col1 === col2)) {
+                if (row1 < row2) {
+                    rectangle.width = 1
+                    rectangle.height = (row2 - row1) * blockSize
+                    rectangle.opacity = 1
+                    rectangle.x = col1 * blockSize + blockSize / 2
+                    rectangle.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle.width = 1
+                    rectangle.height = (row1 - row2) * blockSize
+                    rectangle.opacity = 1
+                    rectangle.x = col2 * blockSize + blockSize / 2
+                    rectangle.y = row2 * blockSize + blockSize / 2
+                }
+            }
+        }
+    }
 
+    function drawline2(row1, col1, row2, col2) {
+        if ((row1 === row2) || (col1 === col2)) {
+            if ((row1 === row2) && (col1 !== col2)) {
+                if (col1 < col2) {
+                    rectangle2.width = (col2 - col1) * blockSize
+                    rectangle2.height = 1
+                    rectangle2.opacity = 1
+                    rectangle2.x = col1 * blockSize + blockSize / 2
+                    rectangle2.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle2.width = (col1 - col2) * blockSize
+                    rectangle2.height = 1
+                    rectangle2.opacity = 1
+                    rectangle2.x = col2 * blockSize + blockSize / 2
+                    rectangle2.y = row2 * blockSize + blockSize / 2
+                }
+            }
+            if ((row1 !== row2) && (col1 === col2)) {
+                if (row1 < row2) {
+                    rectangle2.width = 1
+                    rectangle2.height = (row2 - row1) * blockSize
+                    rectangle2.opacity = 1
+                    rectangle2.x = col1 * blockSize + blockSize / 2
+                    rectangle2.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle2.width = 1
+                    rectangle2.height = (row1 - row2) * blockSize
+                    rectangle2.opacity = 1
+                    rectangle2.x = col2 * blockSize + blockSize / 2
+                    rectangle2.y = row2 * blockSize + blockSize / 2
+                }
+            }
+        }
+    }
+    function drawline3(row1, col1, row2, col2) {
+        if ((row1 === row2) || (col1 === col2)) {
+            if ((row1 === row2) && (col1 !== col2)) {
+                if (col1 < col2) {
+                    rectangle3.width = (col2 - col1) * blockSize
+                    rectangle3.height = 1
+                    rectangle3.opacity = 1
+                    rectangle3.x = col1 * blockSize + blockSize / 2
+                    rectangle3.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle3.width = (col1 - col2) * blockSize
+                    rectangle3.height = 1
+                    rectangle3.opacity = 1
+                    rectangle3.x = col2 * blockSize + blockSize / 2
+                    rectangle3.y = row2 * blockSize + blockSize / 2
+                }
+            }
+            if ((row1 !== row2) && (col1 === col2)) {
+                if (row1 < row2) {
+                    rectangle.width = 1
+                    rectangle.height = (row2 - row1) * blockSize
+                    rectangle.opacity = 1
+                    rectangle.x = col1 * blockSize + blockSize / 2
+                    rectangle.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle.width = 1
+                    rectangle.height = (row1 - row2) * blockSize
+                    rectangle.opacity = 1
+                    rectangle.x = col2 * blockSize + blockSize / 2
+                    rectangle.y = row2 * blockSize + blockSize / 2
+                }
+            }
+        }
+    }
+    function drawline4(row1, col1, row2, col2) {
+        if ((row1 === row2) || (col1 === col2)) {
+            if ((row1 === row2) && (col1 !== col2)) {
+                if (col1 < col2) {
+                    rectangle4.width = (col2 - col1) * blockSize
+                    rectangle4.height = 1
+                    rectangle4.opacity = 1
+                    rectangle4.x = col1 * blockSize + blockSize / 2
+                    rectangle4.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle4.width = (col1 - col2) * blockSize
+                    rectangle4.height = 1
+                    rectangle4.opacity = 1
+                    rectangle4.x = col2 * blockSize + blockSize / 2
+                    rectangle4.y = row2 * blockSize + blockSize / 2
+                }
+            }
+            if ((row1 !== row2) && (col1 === col2)) {
+                if (row1 < row2) {
+                    rectangle4.width = 1
+                    rectangle4.height = (row2 - row1) * blockSize
+                    rectangle4.opacity = 1
+                    rectangle4.x = col1 * blockSize + blockSize / 2
+                    rectangle4.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle4.width = 1
+                    rectangle4.height = (row1 - row2) * blockSize
+                    rectangle4.opacity = 1
+                    rectangle4.x = col2 * blockSize + blockSize / 2
+                    rectangle4.y = row2 * blockSize + blockSize / 2
+                }
+            }
+        }
+    }
+
+    function drawline5(row1, col1, row2, col2) {
+        if ((row1 === row2) || (col1 === col2)) {
+            if ((row1 === row2) && (col1 !== col2)) {
+                if (col1 < col2) {
+                    rectangle5.width = (col2 - col1) * blockSize
+                    rectangle5.height = 1
+                    rectangle5.opacity = 1
+                    rectangle5.x = col1 * blockSize + blockSize / 2
+                    rectangle5.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle5.width = (col1 - col2) * blockSize
+                    rectangle5.height = 1
+                    rectangle5.opacity = 1
+                    rectangle5.x = col2 * blockSize + blockSize / 2
+                    rectangle5.y = row2 * blockSize + blockSize / 2
+                }
+            }
+            if ((row1 !== row2) && (col1 === col2)) {
+                if (row1 < row2) {
+                    rectangle5.width = 1
+                    rectangle5.height = (row2 - row1) * blockSize
+                    rectangle5.opacity = 1
+                    rectangle5.x = col1 * blockSize + blockSize / 2
+                    rectangle5.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle5.width = 1
+                    rectangle5.height = (row1 - row2) * blockSize
+                    rectangle5.opacity = 1
+                    rectangle5.x = col2 * blockSize + blockSize / 2
+                    rectangle5.y = row2 * blockSize + blockSize / 2
+                }
+            }
+        }
+    }
+    function drawline6(row1, col1, row2, col2) {
+        if ((row1 === row2) || (col1 === col2)) {
+            if ((row1 === row2) && (col1 !== col2)) {
+                if (col1 < col2) {
+                    rectangle6.width = (col2 - col1) * blockSize
+                    rectangle6.height = 1
+                    rectangle6.opacity = 1
+                    rectangle6.x = col1 * blockSize + blockSize / 2
+                    rectangle6.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle6.width = (col1 - col2) * blockSize
+                    rectangle6.height = 1
+                    rectangle6.opacity = 1
+                    rectangle6.x = col2 * blockSize + blockSize / 2
+                    rectangle6.y = row2 * blockSize + blockSize / 2
+                }
+            }
+            if ((row1 !== row2) && (col1 === col2)) {
+                if (row1 < row2) {
+                    rectangle6.width = 1
+                    rectangle6.height = (row2 - row1) * blockSize
+                    rectangle6.opacity = 1
+                    rectangle6.x = col1 * blockSize + blockSize / 2
+                    rectangle6.y = row1 * blockSize + blockSize / 2
+                } else {
+                    rectangle6.width = 1
+                    rectangle6.height = (row1 - row2) * blockSize
+                    rectangle6.opacity = 1
+                    rectangle6.x = col2 * blockSize + blockSize / 2
+                    rectangle6.y = row2 * blockSize + blockSize / 2
+                }
+            }
+        }
+    }
     // recursively check a block and its neighbours
     // returns number of connected blocks
     function checkNoBarrier(row1, col1, row2, col2) {
@@ -201,13 +454,163 @@ Item {
 
     function twoTurningPoint(row1, col1, row2, col2) {
 
-        if ((zeroTurningPoint(row1, col1, row1, col2)
-             && zeroTurningPoint(row1, col2, row2,
-                                 col2) && gameArea.field[index(row1, col2)]
-             === null) || (zeroTurningPoint(row1, col1,
-                                            row2, col1) && zeroTurningPoint(row2,
-                                                                            col1, row2, col2)) && gameArea.field[index(row2, col1)] === null) {
-            return true
+        if (((zeroTurningPoint(row1, col1, row1, col2))
+             && (zeroTurningPoint(row1, col2, row2,
+                                  col2)) && (gameArea.field[index(row1, col2)]
+                                             === null)) || ((zeroTurningPoint(row1, col1, row2, col1)) && (zeroTurningPoint(row2, col1, row2, col2)) && (gameArea.field[index(row2, col1)] === null))) {
+
+            if (((zeroTurningPoint(row1, col1, row1, col2))
+                 && (zeroTurningPoint(row1, col2, row2,
+                                      col2)) && (gameArea.field[index(row1, col2)] === null)) && ((!zeroTurningPoint(row1, col1, row2, col1)) || (!zeroTurningPoint(row2, col1, row2, col2)) || (gameArea.field[index(row2, col1)] !== null))) {
+                drawline1(row1, col1, row1, col2)
+                drawline2(row1, col2, row2, col2)
+                return true
+            }
+
+            if (((zeroTurningPoint(row1, col1, row2, col1))
+                 && (zeroTurningPoint(row2, col1, row2,
+                                      col2)) && (gameArea.field[index(row2, col1)] === null)) && ((!zeroTurningPoint(row1, col1, row1, col2)) || (!zeroTurningPoint(row1, col2, row2, col2)) || (gameArea.field[index(row1, col2)] !== null))) {
+                drawline1(row1, col1, row2, col1)
+                drawline2(row2, col1, row2, col2)
+                return true
+            }
+            if (((zeroTurningPoint(row1, col1, row1, col2))
+                 && (zeroTurningPoint(row1, col2, row2,
+                                      col2)) && (gameArea.field[index(row1, col2)] === null)) && ((zeroTurningPoint(row1, col1, row2, col1)) && (zeroTurningPoint(row2, col1, row2, col2)) && (gameArea.field[index(row2, col1)] === null))) {
+                drawline1(row1, col1, row2, col1)
+                drawline2(row2, col1, row2, col2)
+                return true
+            }
+
+            //            if ((row1 < row2) && (col1 < col2)
+            //                    && (gameArea.field[index(row1, col2)] === null)
+            //                    && (gameArea.field[index(row2, col1)] !== null)) {
+            //                drawline1(row1, col1, row1, col2)
+            //                drawline2(row1, col2, row2, col2)
+            //            }
+            //            if ((row1 < row2) && (col1 < col2)
+            //                    && (gameArea.field[index(row2, col1)] === null)
+            //                    && (gameArea.field[index(row1, col2)] !== null)) {
+            //                drawline2(row2, col2, row2, col1)
+            //                drawline3(row2, col1, row1, col1)
+            //            }
+            //            if ((row1 < row2) && (col1 < col2)
+            //                    && (gameArea.field[index(row2, col1)] === null)
+            //                    && (gameArea.field[index(row1, col2)] === null)) {
+            //                if ((zeroTurningPoint(row1, col1, row2,
+            //                                      col1)) && (zeroTurningPoint(row2,
+            //                                                                  col1, row2,
+            //                                                                  col2))) {
+
+            //                    drawline2(row2, col2, row2, col1)
+            //                    drawline3(row2, col1, row1, col1)
+            //                }
+            //                if ((zeroTurningPoint(row1, col2, row1,
+            //                                      col1)) && (zeroTurningPoint(row1,
+            //                                                                  col2, row2,
+            //                                                                  col2))) {
+            //                    drawline2(row1, col1, row1, col2)
+            //                    drawline3(row1, col2, row2, col2)
+            //                }
+            //                //                drawline2(row2, col2, row2, col1)
+            //                //                drawline3(row2, col1, row1, col1)
+            //            }
+            //            if ((row2 < row1) && (col2 < col1)
+            //                    && (gameArea.field[index(row2, col1)] === null)
+            //                    && (gameArea.field[index(row1, col2)] !== null)) {
+            //                drawline2(row2, col2, row2, col1)
+            //                drawline3(row2, col1, row1, col1)
+            //            }
+            //            if ((row2 < row1) && (col2 < col1)
+            //                    && (gameArea.field[index(row1, col2)] === null)
+            //                    && (gameArea.field[index(row2, col1)] !== null)) {
+            //                drawline2(row2, col2, row1, col2)
+            //                drawline3(row1, col2, row1, col1)
+            //            }
+            //            if ((row2 < row1) && (col2 < col1)
+            //                    && (gameArea.field[index(row1, col2)] === null)
+            //                    && (gameArea.field[index(row2, col1)] === null)) {
+            //                if ((zeroTurningPoint(row2, col2, row1,
+            //                                      col2)) && (zeroTurningPoint(row1,
+            //                                                                  col2, row1,
+            //                                                                  col1))) {
+            //                    drawline2(row2, col2, row1, col2)
+            //                    drawline3(row1, col2, row1, col1)
+            //                }
+            //                if ((zeroTurningPoint(row2, col2, row2,
+            //                                      col1)) && (zeroTurningPoint(row2,
+            //                                                                  col1, row1,
+            //                                                                  col1))) {
+            //                    drawline2(row2, col2, row2, col1)
+            //                    drawline3(row2, col1, row1, col1)
+            //                }
+
+            //                //                drawline2(row2, col2, row1, col2)
+            //                //                drawline3(row1, col2, row1, col1)
+            //            }
+            //            if ((row1 > row2) && (col1 < col2)
+            //                    && (gameArea.field[index(row2, col1)] === null)
+            //                    && (gameArea.field[index(row1, col2)] !== null)) {
+            //                drawline2(row2, col1, row2, col2)
+            //                drawline3(row2, col1, row1, col1)
+            //            }
+            //            if ((row1 > row2) && (col1 < col2)
+            //                    && (gameArea.field[index(row1, col2)] === null)
+            //                    && (gameArea.field[index(row2, col1)] !== null)) {
+            //                drawline2(row2, col2, row1, col2)
+            //                drawline3(row1, col1, row1, col2)
+            //            }
+            //            if ((row1 > row2) && (col1 < col2)
+            //                    && (gameArea.field[index(row1, col2)] === null)
+            //                    && (gameArea.field[index(row2, col1)] === null)) {
+            //                if ((zeroTurningPoint(row1, col1, row1,
+            //                                      col2)) && (zeroTurningPoint(row1,
+            //                                                                  col2, row2,
+            //                                                                  col2))) {
+            //                    drawline2(row1, col1, row1, col2)
+            //                    drawline3(row1, col2, row2, col2)
+            //                }
+            //                if ((zeroTurningPoint(row1, col1, row2,
+            //                                      col1)) && (zeroTurningPoint(row2,
+            //                                                                  col1, row2,
+            //                                                                  col2))) {
+            //                    drawline2(row1, col1, row2, col1)
+            //                    drawline3(row2, col1, row2, col2)
+            //                }
+            //                //                drawline2(row2, col2, row1, col2)
+            //                //                drawline3(row1, col1, row1, col2)
+            //            }
+            //            if ((row2 > row1) && (col2 < col1)
+            //                    && (gameArea.field[index(row1, col2)] === null)
+            //                    && (gameArea.field[index(row2, col1)] !== null)) {
+            //                drawline2(row1, col2, row1, col1)
+            //                drawline3(row1, col2, row2, col2)
+            //            }
+            //            if ((row2 > row1) && (col2 < col1)
+            //                    && (gameArea.field[index(row2, col1)] === null)
+            //                    && (gameArea.field[index(row1, col2)] !== null)) {
+            //                drawline2(row2, col2, row2, col1)
+            //                drawline3(row1, col1, row2, col1)
+            //            }
+            //            if ((row2 > row1) && (col2 < col1)
+            //                    && (gameArea.field[index(row2, col1)] === null)
+            //                    && (gameArea.field[index(row1, col2)] === null)) {
+            //                if (zeroTurningPoint(row2, col2, row2,
+            //                                     col1) && (zeroTurningPoint(row2, col1,
+            //                                                                row1, col1))) {
+            //                    drawline2(row2, col2, row2, col1)
+            //                    drawline3(row2, col1, row1, col1)
+            //                }
+            //                if (zeroTurningPoint(row2, col2, row1,
+            //                                     col2) && (zeroTurningPoint(row1, col2,
+            //                                                                row1, col1))) {
+            //                    drawline2(row2, col2, row1, col2)
+            //                    drawline3(row1, col2, row1, col1)
+            //                }
+            //                //                drawline2(row2, col2, row2, col1)
+            //                //                drawline3(row1, col1, row2, col1)
+            //            }
+            //            return true
         }
         return false
     }
@@ -217,18 +620,27 @@ Item {
              && gameArea.field[index(i, col1)] === null; i++) {
             for (var a = row2 + 1; a < rows && a >= 0
                  && gameArea.field[index(a, col2)] === null; a++) {
-                if (zeroTurningPoint(i, col1, a, col2))
+                if (zeroTurningPoint(i, col1, a, col2)) {
+                    drawline1(i, col1, a, col2)
+                    drawline2(row1, col1, i, col1)
+                    drawline3(a, col2, row2, col2)
                     return true
+                }
             }
             for (var b = row2 - 1; b < rows && b >= 0
                  && gameArea.field[index(b, col2)] === null; b--) {
-                if (zeroTurningPoint(i, col1, b, col2))
+                if (zeroTurningPoint(i, col1, b, col2)) {
+                    drawline1(i, col1, b, col2)
+                    drawline2(row1, col1, i, col1)
+                    drawline3(b, col2, row2, col2)
                     return true
+                }
             }
             for (var c = col2 + 1; c < columns && c >= 0
                  && gameArea.field[index(row2, c)] === null; c++) {
-                if (zeroTurningPoint(i, col1, row2, c))
+                if (zeroTurningPoint(i, col1, row2, c)) {
                     return true
+                }
             }
             for (var d = col2 - 1; d < columns && d >= 0
                  && gameArea.field[index(row2, d)] === null; d--) {
@@ -241,13 +653,21 @@ Item {
              && gameArea.field[index(i, col1)] === null; i--) {
             for (a = row2 + 1; a < rows && a >= 0
                  && gameArea.field[index(a, col2)] === null; a++) {
-                if (zeroTurningPoint(i, col1, a, col2))
+                if (zeroTurningPoint(i, col1, a, col2)) {
+                    drawline1(i, col1, a, col2)
+                    drawline2(row1, col1, i, col1)
+                    drawline3(a, col2, row2, col2)
                     return true
+                }
             }
             for (b = row2 - 1; b < rows && b >= 0
                  && gameArea.field[index(b, col2)] === null; b--) {
-                if (zeroTurningPoint(i, col1, b, col2))
+                if (zeroTurningPoint(i, col1, b, col2)) {
+                    drawline1(i, col1, b, col2)
+                    drawline2(row1, col1, i, col1)
+                    drawline3(b, col2, row2, col2)
                     return true
+                }
             }
             for (c = col2 + 1; c < columns && c >= 0
                  && gameArea.field[index(row2, c)] === null; c++) {
@@ -275,13 +695,21 @@ Item {
             }
             for (c = col2 + 1; c < columns && c >= 0
                  && gameArea.field[index(row2, c)] === null; c++) {
-                if (zeroTurningPoint(row1, i, row2, c))
+                if (zeroTurningPoint(row1, i, row2, c)) {
+                    drawline1(row1, i, row2, c)
+                    drawline2(row2, col2, row2, c)
+                    drawline3(row1, i, row1, col1)
                     return true
+                }
             }
             for (d = col2 - 1; d < columns && d >= 0
                  && gameArea.field[index(row2, d)] === null; d--) {
-                if (zeroTurningPoint(row1, i, row2, d))
+                if (zeroTurningPoint(row1, i, row2, d)) {
+                    drawline1(row1, i, row2, d)
+                    drawline2(row1, i, row1, col1)
+                    drawline3(row2, d, row2, col2)
                     return true
+                }
             }
         }
 
@@ -289,8 +717,12 @@ Item {
              && gameArea.field[index(row1, i)] === null; i++) {
             for (a = row2 + 1; a < rows && a >= 0
                  && gameArea.field[index(a, col2)] === null; a++) {
-                if (zeroTurningPoint(row1, i, a, col2))
+                if (zeroTurningPoint(row1, i, a, col2)) {
+                    //                    drawline3(row1, i, a, col2)
+                    //                    drawline4(row1, col1, row1, i)
+                    //                    drawline5(row2, col2, row2, a)
                     return true
+                }
             }
             for (b = row2 - 1; b < rows && b >= 0
                  && gameArea.field[index(b, col2)] === null; b--) {
@@ -299,13 +731,21 @@ Item {
             }
             for (c = col2 + 1; c < columns && c >= 0
                  && gameArea.field[index(row2, c)] === null; c++) {
-                if (zeroTurningPoint(row1, i, row2, c))
+                if (zeroTurningPoint(row1, i, row2, c)) {
+                    drawline1(row1, col1, row1, i)
+                    drawline2(row1, i, row2, c)
+                    drawline3(row2, c, row2, col1)
                     return true
+                }
             }
             for (d = col2 - 1; d < columns && d >= 0
                  && gameArea.field[index(row2, d)] === null; d--) {
-                if (zeroTurningPoint(row1, i, row2, d))
+                if (zeroTurningPoint(row1, i, row2, d)) {
+                    drawline1(row1, i, row2, d)
+                    drawline2(row1, col1, row1, i)
+                    drawline3(row2, d, row2, col2)
                     return true
+                }
             }
         }
 
@@ -316,14 +756,19 @@ Item {
         if (row1 === row2) {
             if (col1 < col2) {
                 for (var i = col1 + 1; i < col2; i++) {
-                    if (gameArea.field[index(row1, i)] !== null)
+                    if (gameArea.field[index(row1, i)] !== null) {
                         return false
+                    }
                 }
+
+                drawline1(row2, col2, row1, col1)
             } else {
                 for (var n = col2 + 1; n < col1; n++) {
                     if (gameArea.field[index(row1, n)] !== null)
                         return false
                 }
+
+                drawline1(row1, col1, row2, col2)
             }
         } else if (col1 === col2) {
             if (row1 < row2) {
@@ -331,17 +776,20 @@ Item {
                     if (gameArea.field[index(j, col1)] !== null)
                         return false
                 }
+
+                drawline1(row2, col2, row1, col1)
             } else {
                 for (var m = row2 + 1; m < row1; m++) {
                     if (gameArea.field[index(m, col1)] !== null)
                         return false
                 }
+
+                drawline1(row1, col1, row2, col2)
             }
         } else {
             return false
         }
 
-        console.log("0000000000000000000000")
         return true
     }
 

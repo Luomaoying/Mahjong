@@ -102,11 +102,8 @@ EntityBase {
     function remove() {
         particleItem.opacity = 1
         sparkleParticle.start()
-        a()
         fadeOutAnimation.start()
-    }
-    function a() {
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa")
+        gamesound.playFruitClear()
     }
 
     // trigger fall down of block

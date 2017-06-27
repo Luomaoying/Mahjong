@@ -43,49 +43,51 @@ GameWindow {
 
         // property to hold game score
         property int score
+        GameSound {
+            id: gamesound
+        }
 
         // background image
-                BackgroundImage {
-                    source: "../assets/JuicyBackground.png"
-                    anchors.centerIn: scene.gameWindowAnchorItem
-                }
+        BackgroundImage {
+            source: "../assets/JuicyBackground.png"
+            anchors.centerIn: scene.gameWindowAnchorItem
+        }
 
-                // display score
-                Text {
-                    // set font
-                    font.family: gameFont.name
-                    font.pixelSize: 12
-                    color: "red"
-                    text: scene.score
+        // display score
+        Text {
+            // set font
+            font.family: gameFont.name
+            font.pixelSize: 12
+            color: "red"
+            text: scene.score
 
-                    // set position
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    y: 446
-                }
+            // set position
+            anchors.horizontalCenter: parent.horizontalCenter
+            y: 446
+        }
 
-                // game area holds game field with blocks
-                GameArea {
-                    id: gameArea
-                    anchors.horizontalCenter: scene.horizontalCenter
-                    y: 20
-                    blockSize: 30
-                    onGameOver: gameOverWindow.show()
-                }
+        // game area holds game field with blocks
+        GameArea {
+            id: gameArea
+            anchors.horizontalCenter: scene.horizontalCenter
+            y: 20
+            blockSize: 30
+            onGameOver: gameOverWindow.show()
+        }
 
+        GameOverWindow {
+            id: gameOverWindow
+            y: 90
+            opacity: 0 // by default the window is hidden
+            anchors.horizontalCenter: scene.horizontalCenter
+            onNewGameClicked: scene.startGame()
+        }
 
-                GameOverWindow {
-                    id: gameOverWindow
-                    y: 90
-                    opacity: 0 // by default the window is hidden
-                    anchors.horizontalCenter: scene.horizontalCenter
-                    onNewGameClicked: scene.startGame()
-                }
-
-                // initialize game
-                function startGame() {
-                    gameOverWindow.hide()
-                    gameArea.initializeField()
-                    scene.score = 0
-                }
+        // initialize game
+        function startGame() {
+            gameOverWindow.hide()
+            gameArea.initializeField()
+            scene.score = 0
+        }
     }
 }

@@ -36,5 +36,6 @@ ios {
 
 DISTFILES += \
     qml/GameArea.qml \
-    qml/turningLine.qml
+    qml/PointLine.qml \
+    qml/GameSound.qml
 
