@@ -31,7 +31,7 @@ GameWindow {
     // custom font loading of ttf fonts
     FontLoader {
         id: gameFont
-        source: "../assets/fonts/akaDylan Plain.ttf"
+        source: "../assets/fonts/HoneyLight.ttf"
     }
 
     Scene {
@@ -43,9 +43,6 @@ GameWindow {
 
         // property to hold game score
         property int score
-        GameSound {
-            id: gamesound
-        }
 
         // background image
         BackgroundImage {
@@ -53,17 +50,34 @@ GameWindow {
             anchors.centerIn: scene.gameWindowAnchorItem
         }
 
-        // display score
+        Image {
+            id: grid
+            source: "../assets/Grid.png"
+            width: 258
+            height: 378
+            anchors.horizontalCenter: scene.horizontalCenter
+            anchors.bottom: scene.bottom
+            anchors.bottomMargin: 92
+        }
+        Text {
+            font.family: gameFont.name
+            font.pixelSize: 23
+            color: "yellow"
+            text: "Aha..Mahjong"
+            anchors.horizontalCenter: parent.horizontalCenter
+            y: 400
+        }
+
         Text {
             // set font
             font.family: gameFont.name
-            font.pixelSize: 12
-            color: "red"
+            font.pixelSize: 20
+            color: "green"
             text: scene.score
 
             // set position
             anchors.horizontalCenter: parent.horizontalCenter
-            y: 446
+            y: 440
         }
 
         // game area holds game field with blocks
@@ -72,20 +86,60 @@ GameWindow {
             anchors.horizontalCenter: scene.horizontalCenter
             y: 20
             blockSize: 30
-            onGameOver: gameOverWindow.show()
+            onInitialize: reduceBloodTimer.start()
+            onGameOver: {
+                gameOverWindow.show()
+                gameArea.enabled = false
+                reduceBloodTimer.stop()
+            }
+            onPairingSuccess: {
+
+                if (timeBar.blood + level * 3.5 < timeBar.height) {
+                    timeBar.blood += level * 3.5
+                } else {
+                    timeBar.blood = timeBar.height
+                }
+            }
         }
 
+        Timer {
+            id: reduceBloodTimer
+            repeat: true
+            interval: 800
+            onTriggered: {
+                timeBar.blood -= 9
+            }
+        }
+
+        // Time bar
+        TimeBar {
+            id: timeBar
+            anchors.verticalCenter: grid.verticalCenter
+            anchors.right: grid.left
+            width: 9
+
+            height: gameArea.height * 2 / 3
+            onBloodEmpty: {
+                gameOverWindow.show()
+                gameArea.enabled = false
+                reduceBloodTimer.stop()
+            }
+        }
         GameOverWindow {
             id: gameOverWindow
-            y: 90
+            y: 120
             opacity: 0 // by default the window is hidden
             anchors.horizontalCenter: scene.horizontalCenter
-            onNewGameClicked: scene.startGame()
+            onNewGameClicked: {
+                scene.startGame()
+                timeBar.blood = timeBar.height * 2 / 3
+            }
         }
 
         // initialize game
         function startGame() {
             gameOverWindow.hide()
+            gameArea.enabled = true
             gameArea.initializeField()
             scene.score = 0
         }

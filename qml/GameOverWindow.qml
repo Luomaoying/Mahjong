@@ -4,8 +4,8 @@ import QtQuick 2.0
 Item {
     id: gameOverWindow
 
-    width: 232
-    height: 160
+    width: 300
+    height: 80
 
     // hide when opacity = 0
     visible: opacity > 0
@@ -17,7 +17,7 @@ Item {
     signal newGameClicked
 
     Image {
-        source: "../assets/GameOver.png"
+        source: "../assets/gameover"
         anchors.fill: parent
     }
 
@@ -31,7 +31,7 @@ Item {
 
         // set position
         anchors.horizontalCenter: parent.horizontalCenter
-        y: 72
+        y: 10
     }
 
     // play again button
@@ -53,7 +53,6 @@ Item {
             onClicked: gameOverWindow.newGameClicked()
         }
 
-        // this animation sequence changes the color of text between red and orange infinitely
         SequentialAnimation on color {
             loops: Animation.Infinite
             PropertyAnimation {
@@ -61,7 +60,7 @@ Item {
                 duration: 1000 // 1 second for fade to orange
             }
             PropertyAnimation {
-                to: "red"
+                to: "blue"
                 duration: 1000 // 1 second for fade to red
             }
         }
@@ -81,6 +80,8 @@ Item {
 
     // hides the window
     function hide() {
+        console.log(gameOverWindow.opacity)
         gameOverWindow.opacity = 0
+        console.log(gameOverWindow.opacity)
     }
 }

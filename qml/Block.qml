@@ -5,10 +5,6 @@ EntityBase {
     id: block
     entityType: "block"
 
-    // hide block if outside of game area
-    visible: y >= 0
-
-    enabled: opacity == 1
     // each block knows its type and its position on the field
     property int type
     property int row
@@ -38,7 +34,13 @@ EntityBase {
             else if (type == 7)
                 return "../assets/octopi_yellow.png"
             else if (type == 8)
+                return "../assets/Coconut.png"
+            else if (type == 9)
+                return "../assets/Lemon.png"
+            else if (type == 10)
                 return "../assets/octopi_red.png"
+            else if (type == 11)
+                return "../assets/WaterMelon.png"
         }
     }
 
@@ -52,12 +54,12 @@ EntityBase {
         id: particleItem
         width: parent.width
         height: parent.height
-        x: parent.x + parent.width / 2
-        y: parent.y + parent.height / 2
+        x: parent.width / 2
+        y: parent.height / 2
 
         ParticleVPlay {
             id: sparkleParticle
-            fileName: "../particles/FruitySparkle.json"
+            fileName: "./particles/FruitySparkle.json"
         }
         opacity: 0
         visible: opacity > 0
@@ -69,13 +71,14 @@ EntityBase {
         id: fadeOutAnimation
         target: block
         property: "opacity"
-        duration: 500
+        duration: 200
         from: 1.0
         to: 0
 
         // remove block after fade out is finished
         onStopped: {
             sparkleParticle.stop()
+            //stopDraw()
             entityManager.removeEntityById(block.entityId)
         }
     }
@@ -103,7 +106,6 @@ EntityBase {
         particleItem.opacity = 1
         sparkleParticle.start()
         fadeOutAnimation.start()
-        gamesound.playFruitClear()
     }
 
     // trigger fall down of block
