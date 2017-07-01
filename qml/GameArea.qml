@@ -15,10 +15,9 @@ Item {
     property int columns: Math.floor(width / blockSize)
 
     // properties for increasing game difficulty
-    property int maxTypes
-    property var imageNumber: [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]
-    property int clicks
-    property int level: 0
+    property int maxTypes: 12
+    property int types
+    property var imageNumber: [7, 7, 8, 7, 7, 8, 7, 7, 7, 7, 7, 7]
 
     // array for handling game field
     property var field: []
@@ -26,11 +25,15 @@ Item {
     property int linkIndex: 0
     property int linelevel: 0
     property var point: []
+    property var lucky: []
+    property var chanceLink: []
 
     // gameover signal
     signal gameOver
     signal pairingSuccess(int level)
     signal initialize
+    signal chance
+    signal calculatescore(int totalscore, int levell)
 
     Rectangle {
         id: rectangle
@@ -66,23 +69,24 @@ Item {
     }
 
     // fill game field with blocks
-    function initializeField() {
+    function initializeField(varietyy) {
         // reset difficulty
-        gameArea.clicks = 0
-        gameArea.maxTypes = 12
-        gameArea.imageNumber = [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]
+        gameArea.types = 12
+        gameArea.imageNumber = [7, 7, 8, 7, 7, 8, 7, 7, 7, 7, 7, 7]
 
+        gameArea.lucky = [Math.floor(Math.random(
+                                         ) * gameArea.rows * gameArea.columns), Math.floor(Math.random() * gameArea.rows * gameArea.columns), Math.floor(Math.random() * gameArea.rows * gameArea.columns)]
         // clear field
         clearField()
 
         // fill field
         for (var i = 0; i < rows; i++) {
             for (var j = 0; j < columns; j++) {
-                //                if (i === j || (rows - i) === (columns - j)) {
-                //                    gameArea.field[index(i, j)] = null
-                //                } else {
-                gameArea.field[index(i, j)] = createBlock(i, j)
-                //                }
+                if (i === j || (rows - i) === (columns - j)) {
+                    gameArea.field[index(i, j)] = null
+                } else {
+                    gameArea.field[index(i, j)] = createBlock(i, j, varietyy)
+                }
             }
         }
         initialize()
@@ -101,17 +105,18 @@ Item {
     }
 
     // create a new block at specific position
-    function createBlock(row, column) {
+    function createBlock(row, column, varietyyy) {
         // configure block
         var entityProperties = {
             width: blockSize,
             height: blockSize,
             x: column * blockSize,
             y: row * blockSize,
-            type: imageSet(),
+            type: imageSet(varietyyy),
             row// random type
             : row,
-            column: column
+            column: column,
+            chances: islucky(row, column)
         }
 
         // add block to game area
@@ -125,13 +130,22 @@ Item {
         return entity
     }
 
-    function imageSet() {
-        var types = Math.floor(Math.random() * gameArea.maxTypes)
-        if (imageNumber[types] !== 0) {
-            imageNumber[types]--
+    function islucky(row, column) {
+        for (var i = 0; i !== 3; i++) {
+            if (lucky[i] === index(row, column))
+                return 1
+        }
+        return 0
+    }
+
+    function imageSet(varietyyyy) {
+        var types = varietyyyy * maxTypes + Math.floor(Math.random(
+                                                           ) * gameArea.types)
+        if (imageNumber[types - varietyyyy * maxTypes] !== 0) {
+            imageNumber[types - varietyyyy * maxTypes]--
             return types
         } else {
-            return imageSet()
+            return imageSet(varietyyyy)
 
             //            for (var i = types + 1; i !== maxTypes; i++) {
             //                if (imageNumber[i] !== 0) {
@@ -151,15 +165,15 @@ Item {
     // handle user clicks
     function handleClick(row, column, type) {
 
-        //var fieldCopy = gameArea.field.slice()
+        var fieldCopy = gameArea.field.slice()
         link[linkIndex] = index(row, column)
         if (linkIndex === 0) {
             if (link[1] !== 99) {
-                if (gameArea.field[link[1]].type === type
-                        && (gameArea.field[link[1]].row !== row
-                            || gameArea.field[link[1]].column !== column)
-                        && checkNoBarrier(gameArea.field[link[1]].row,
-                                          gameArea.field[link[1]].column, row,
+                if (fieldCopy[link[1]].type === type
+                        && (fieldCopy[link[1]].row !== row
+                            || fieldCopy[link[1]].column !== column)
+                        && checkNoBarrier(fieldCopy[link[1]].row,
+                                          fieldCopy[link[1]].column, row,
                                           column)) {
                     if (linelevel !== 0) {
                         timer.restart()
@@ -177,8 +191,13 @@ Item {
                             drawline3(point[4], point[5], point[6], point[7])
                         }
 
-                        scene.score += 350 * linelevel
+                        //                        scene.score += 350 * linelevel
+                        calculatescore(scene.score, linelevel)
                         pairingSuccess(linelevel)
+
+                        if (fieldCopy[link[0]].chances === 1
+                                || fieldCopy[link[1]].chances === 1)
+                            chance()
                         var block = gameArea.field[link[0]]
                         gameArea.field[link[0]] = null
                         block.remove()
@@ -196,11 +215,11 @@ Item {
                 linkIndex = 1
         } else {
             if (link[0] !== 99) {
-                if (gameArea.field[link[0]].type === type
-                        && (gameArea.field[link[0]].row !== row
-                            || gameArea.field[link[0]].column !== column)
-                        && checkNoBarrier(gameArea.field[link[0]].row,
-                                          gameArea.field[link[0]].column, row,
+                if (fieldCopy[link[0]].type === type
+                        && (fieldCopy[link[0]].row !== row
+                            || fieldCopy[link[0]].column !== column)
+                        && checkNoBarrier(fieldCopy[link[0]].row,
+                                          fieldCopy[link[0]].column, row,
                                           column)) {
                     if (linelevel !== 0) {
                         timer.restart()
@@ -217,8 +236,13 @@ Item {
                             drawline2(point[4], point[5], point[2], point[3])
                             drawline3(point[4], point[5], point[6], point[7])
                         }
-                        scene.score += 350 * linelevel
+                        // scene.score += 350 * linelevel
+                        gameArea.calculatescore(scene.score, linelevel)
                         pairingSuccess(linelevel)
+
+                        if (fieldCopy[link[0]].chances === 1
+                                || fieldCopy[link[1]].chances === 1)
+                            chance()
                         block = gameArea.field[link[0]]
                         gameArea.field[link[0]] = null
                         block.remove()
@@ -239,13 +263,7 @@ Item {
         // emit signal if game is over
         if (isGameOver())
             gameOver()
-
-        // increase difficulty every 10 clicks until maxTypes == 5
-        gameArea.clicks++
-        if ((gameArea.maxTypes < 5) && (gameArea.clicks % 10 == 0))
-            gameArea.maxTypes++
     }
-
     // check two blocks whether they can link
     function checkNoBarrier(row1, col1, row2, col2) {
         if (row1 === row2 || col1 === col2) {
@@ -564,8 +582,10 @@ Item {
                                     && (fieldCopy[index(row, col)].type
                                         === fieldCopy[index(row1,
                                                             col1)].type)) {
-                                if (checkNoBarrier(row, col, row1, col1))
+                                if (checkNoBarrier(row, col, row1, col1)) {
+                                    chanceLink = [row, col, row1, col1]
                                     return false
+                                }
                             }
                         }
                     }
@@ -574,5 +594,27 @@ Item {
         }
 
         return true
+    }
+
+    function removeChanceLink() {
+        var block = gameArea.field[index(chanceLink[0], chanceLink[1])]
+        gameArea.field[index(chanceLink[0], chanceLink[1])] = null
+        block.remove()
+        block = gameArea.field[index(chanceLink[2], chanceLink[3])]
+        gameArea.field[index(chanceLink[2], chanceLink[3])] = null
+        block.remove()
+        if (linelevel === 1) {
+            drawline1(point[0], point[1], point[2], point[3])
+            rectangle2.opacity = 0
+            rectangle3.opacity = 0
+        } else if (linelevel === 2) {
+            drawline1(point[0], point[1], point[2], point[3])
+            drawline2(point[4], point[5], point[2], point[3])
+            rectangle3.opacity = 0
+        } else {
+            drawline1(point[0], point[1], point[2], point[3])
+            drawline2(point[4], point[5], point[2], point[3])
+            drawline3(point[4], point[5], point[6], point[7])
+        }
     }
 }

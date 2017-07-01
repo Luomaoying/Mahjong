@@ -22,7 +22,8 @@ RESOURCES += #    resources.qrc # uncomment for publishing
 
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    score.cpp
 
 android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
@@ -37,5 +38,9 @@ ios {
 DISTFILES += \
     qml/GameArea.qml \
     qml/TurningLine.qml \
-    qml/TimeBar.qml
+    qml/TimeBar.qml \
+    qml/GameSound.qml
+
+HEADERS += \
+    score.h
 

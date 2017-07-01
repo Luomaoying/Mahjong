@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <VPApplication>
-
+#include <QQmlContext>
+#include "score.h"
 #include <QQmlApplicationEngine>
 
 
@@ -15,7 +16,9 @@ int main(int argc, char *argv[])
     // if you have older projects using Qt App wizards from previous QtCreator versions than 3.1, please change them to QQmlApplicationEngine
     QQmlApplicationEngine engine;
     vplay.initialize(&engine);
-
+    Score score;
+   engine.rootContext()->setContextProperty("grade", &score);
+   qmlRegisterType<Score>("student",1,0,"Score");
     // use this during development
     // for PUBLISHING, use the entry point below
     vplay.setMainQmlFileName(QStringLiteral("qml/Main.qml"));

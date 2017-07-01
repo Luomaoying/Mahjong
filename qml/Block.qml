@@ -9,41 +9,153 @@ EntityBase {
     property int type
     property int row
     property int column
+    property int chances: 0
 
     // emit a signal when block is clicked
     signal clicked(int row, int column, int type)
 
+    onChancesChanged: {
+        if (chances === 1)
+            chance.opacity = 1
+        chance1.opacity = 1
+    }
+
     // show different images for block types
     Image {
+        id: image
         anchors.fill: parent
         source: {
             if (type == 0)
-                return "../assets/Apple.png"
+                return "../assets/小鬼果子/Apple.png"
             else if (type == 1)
-                return "../assets/Banana.png"
+                return "../assets/小鬼果子/Banana.png"
             else if (type == 2)
-                return "../assets/Orange.png"
+                return "../assets/小鬼果子/Orange.png"
             else if (type == 3)
-                return "../assets/Pear.png"
+                return "../assets/小鬼果子/Pear.png"
             else if (type == 4)
-                return "../assets/BlueBerry.png"
+                return "../assets/小鬼果子/BlueBerry.png"
             else if (type == 5)
-                return "../assets/octopi_black.png"
+                return "../assets/小鬼果子/octopi_black.png"
             else if (type == 6)
-                return "../assets/octopi_green.png"
+                return "../assets/小鬼果子/octopi_green.png"
             else if (type == 7)
-                return "../assets/octopi_yellow.png"
+                return "../assets/小鬼果子/octopi_yellow.png"
             else if (type == 8)
-                return "../assets/Coconut.png"
+                return "../assets/小鬼果子/Coconut.png"
             else if (type == 9)
-                return "../assets/Lemon.png"
+                return "../assets/小鬼果子/Lemon.png"
             else if (type == 10)
-                return "../assets/octopi_red.png"
+                return "../assets/小鬼果子/octopi_red.png"
             else if (type == 11)
-                return "../assets/WaterMelon.png"
+                return "../assets/小鬼果子/WaterMelon.png"
+            else if (type == 12)
+                return "../assets/武术/1.jpg"
+            else if (type == 13)
+                return "../assets/武术/2.jpg"
+            else if (type == 14)
+                return "../assets/武术/3.jpg"
+            else if (type == 15)
+                return "../assets/武术/4.jpg"
+            else if (type == 16)
+                return "../assets/武术/5.jpg"
+            else if (type == 17)
+                return "../assets/武术/6.jpg"
+            else if (type == 18)
+                return "../assets/武术/7.jpg"
+            else if (type == 19)
+                return "../assets/武术/8.jpg"
+            else if (type == 20)
+                return "../assets/武术/9.jpg"
+            else if (type == 21)
+                return "../assets/武术/10.jpg"
+            else if (type == 22)
+                return "../assets/武术/11.jpg"
+            else if (type == 23)
+                return "../assets/武术/12.jpg"
+            else if (type == 24)
+                return "../assets/色彩/1.jpg"
+            else if (type == 25)
+                return "../assets/色彩/2.jpg"
+            else if (type == 26)
+                return "../assets/色彩/3.jpg"
+            else if (type == 27)
+                return "../assets/色彩/4.jpg"
+            else if (type == 28)
+                return "../assets/色彩/5.jpg"
+            else if (type == 29)
+                return "../assets/色彩/6.jpg"
+            else if (type == 30)
+                return "../assets/色彩/7.jpg"
+            else if (type == 31)
+                return "../assets/色彩/8.jpg"
+            else if (type == 32)
+                return "../assets/色彩/9.jpg"
+            else if (type == 33)
+                return "../assets/色彩/10.jpg"
+            else if (type == 34)
+                return "../assets/色彩/11.jpg"
+            else if (type == 35)
+                return "../assets/色彩/12.jpg"
+        }
+
+        Rectangle {
+            id: chance
+            opacity: 0
+            width: parent.width
+            height: parent.height / 12
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            color: "white"
+        }
+        SequentialAnimation {
+            id: chancerAnimation
+            running: true
+            loops: Animation.Infinite
+            PropertyAnimation {
+                target: chance
+                property: "color"
+                from: "blue"
+                to: "white"
+                duration: 1000
+            }
+            PropertyAnimation {
+                target: chance
+                property: "color"
+                duration: 1000
+                from: "white"
+                to: "blue"
+            }
+        }
+
+        Rectangle {
+            id: chance1
+            opacity: 0
+            width: parent.width / 12
+            height: parent.height
+
+            color: "white"
+        }
+        SequentialAnimation {
+            id: chancerAnimation1
+            running: true
+            loops: Animation.Infinite
+            PropertyAnimation {
+                target: chance1
+                property: "color"
+                from: "blue"
+                to: "white"
+                duration: 1000
+            }
+            PropertyAnimation {
+                target: chance1
+                property: "color"
+                duration: 1000
+                from: "white"
+                to: "blue"
+            }
         }
     }
-
     // handle click event on blocks (trigger clicked signal)
     MouseArea {
         anchors.fill: parent
@@ -106,6 +218,7 @@ EntityBase {
         particleItem.opacity = 1
         sparkleParticle.start()
         fadeOutAnimation.start()
+        gamesound.playFruitClear()
     }
 
     // trigger fall down of block

@@ -7,15 +7,15 @@ Item {
     width: 300
     height: 80
 
+
     // hide when opacity = 0
-    visible: opacity > 0
+        visible: opacity > 0
 
     // disable when opacity < 1
-    enabled: opacity == 1
-
+        enabled: opacity == 1
     // signal when new game button is clicked
     signal newGameClicked
-
+    signal returnStartMenue
     Image {
         source: "../assets/gameover"
         anchors.fill: parent
@@ -66,6 +66,25 @@ Item {
         }
     }
 
+    Text {
+        // set font
+        font.family: gameFont.name
+        font.pixelSize: 15
+        color: "orange"
+        text: "home"
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5
+
+        // signal click event
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                returnStartMenue()
+            }
+        }
+    }
+
     // fade in/out animation
     Behavior on opacity {
         NumberAnimation {
@@ -80,8 +99,6 @@ Item {
 
     // hides the window
     function hide() {
-        console.log(gameOverWindow.opacity)
         gameOverWindow.opacity = 0
-        console.log(gameOverWindow.opacity)
     }
 }
